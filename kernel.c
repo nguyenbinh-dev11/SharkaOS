@@ -147,7 +147,7 @@ void command_handler(char *command) {
 		__asm__ volatile ("hlt");
 	}
 	else if (cmpstr(command, "osinfo")) {
-		terminal_write("----------\nOS Name: NemoOS\nVersion: 0.0.1-alpha\nCode: Big Bang\nWebsite: https://nemoos.org\n----------\n");
+		terminal_write("----------\nOS Name: SharkaOS\nVersion: 0.0.1-alpha\nCode: Big Bang\nGithub Repository: https://github.com/nguyenbinh-dev11/SharkaOS\n----------\n");
 	}
 }
 
@@ -182,7 +182,7 @@ void keyboard_handler() {
 void kmain() {
 	terminal_init();
 	terminal_write("Booting...\n");
-	terminal_write("Welcome to NemoOS!\n");
+	terminal_write("Welcome to SharkaOS!\n");
 	terminal_write("----------\n");
 
 	// Thay vì chạy mãi (như trong OS thực), chúng ta sẽ kiểm tra cổng bàn phím
