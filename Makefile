@@ -11,7 +11,7 @@ boot.o: boot.asm
 	i686-elf-as $< -o $@
 	
 kernel.o: kernel.c
-	i686-elf-gcc -c $< -o $@ -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+	i686-elf-gcc -Iinclude -c $< -o $@ -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 
 run: os.bin
 	qemu-system-x86_64 -kernel os.bin
