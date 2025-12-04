@@ -1,20 +1,28 @@
 # Makefile
-NASM = nasm
-CC = gcc
-LD = ld
-OBJCOPY = objcopy
+AS = i686-elf-as
+CC = i686-elf-gcc
+LD = i686-elf-ld
 
-os.bin: boot.o kernel.o
-	i686-elf-gcc -T linker.ld -o $@ -ffreestanding -O2 -nostdlib $^ -lgcc
+CFLAGS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra -Iinclude
 
-boot.o: boot.asm
-	i686-elf-as $< -o $@
-	
-kernel.o: kernel.c
-	i686-elf-gcc -Iinclude -c $< -o $@ -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+C_SOURCES = kernel/kernel.c
+ASM_SOURCES = boot/boot.asm
 
-run: os.bin
-	qemu-system-x86_64 -kernel os.bin
+TARGET = os.bin
+OBJ = $(C_SOURCES:.c=.o) $(ASM_SOURCES:.asm=.o)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.asm
+	$(AS) $< -o $@
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+	$(CC) -nostdlib -T linker.ld $(OBJ) -o $@
+
+run: $(TARGET)
+	qemu-system-x86_64 -kernel $<
 
 clean:
-	rm -f *.bin *.o *.elf
+	rm -f $(OBJ) $(TARGET)
